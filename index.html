@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Aura Share Your Experience</title>
+   <link rel="icon" type="image/png" href="favicon/favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="stage">
+
+    <div class="brand">
+      <img src="assets/images/logo.png" alt="The Aura logo">
+    </div>
+
+
+    <div class="card">
+
+      <!-- Progress bar (hidden on intro + thanks) -->
+      <div class="progress-wrap" id="progressWrap" style="display:none;">
+        <div class="progress-meta">
+          <span>Step <strong id="stepNow">1</strong> of <span id="stepTotal">5</span></span>
+          <span id="stepLabel">Your experience</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-leaf" id="progressLeaf">🌿</div>
+        </div>
+      </div>
+
+      <!-- STEP 0: INTRO -->
+      <div class="step active" data-step="intro">
+        <div class="intro">
+          <div class="leaf-badge">🍃</div>
+          <h1>How was your visit?</h1>
+          <p>It takes less than a minute. Your feedback helps our small kitchen grow.</p>
+          <button class="btn btn-primary btn-start" id="startBtn">Start</button>
+        </div>
+      </div>
+
+      <!-- STEP 1: RATING -->
+      <div class="step" data-step="1">
+        <div class="step-eyebrow">Step 1 of 5</div>
+        <h1 class="step-title">How was your experience today?</h1>
+        <p class="step-sub">Tap a star to rate us.</p>
+
+        <div class="stars" id="starRow">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+        <div class="rating-word" id="ratingWord">&nbsp;</div>
+
+        <div class="choice-list" id="ratingWords">
+          <div class="choice-item" data-word="Excellent">
+            <span class="choice-label">Excellent</span>
+            <span class="radio-dot"></span>
+          </div>
+          <div class="choice-item" data-word="Good">
+            <span class="choice-label">Good</span>
+            <span class="radio-dot"></span>
+          </div>
+          <div class="choice-item" data-word="Average">
+            <span class="choice-label">Average</span>
+            <span class="radio-dot"></span>
+          </div>
+          <div class="choice-item" data-word="Poor">
+            <span class="choice-label">Poor</span>
+            <span class="radio-dot"></span>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:26px;">
+          <button class="btn btn-primary" id="next1" disabled>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: NAME -->
+      <div class="step" data-step="2">
+        <div class="step-eyebrow">Step 2 of 5</div>
+        <h1 class="step-title">What's your name?</h1>
+        <p class="step-sub">So we know who to thank.</p>
+
+        <div class="field" id="nameField">
+          <label for="nameInput">Full name</label>
+          <input type="text" id="nameInput" placeholder="e.g. Ananya Sharma" autocomplete="name">
+          <div class="error">Please enter your name.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" data-back>Back</button>
+          <button class="btn btn-primary" id="next2">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: PHONE -->
+      <div class="step" data-step="3">
+        <div class="step-eyebrow">Step 3 of 5</div>
+        <h1 class="step-title">Phone number</h1>
+        <p class="step-sub">In case we'd like to say thank you personally.</p>
+
+        <div class="field" id="phoneField">
+          <label for="phoneInput">Mobile number</label>
+          <input type="tel" id="phoneInput" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric"
+            maxlength="10">
+          <div class="error">Please enter a valid 10-digit number.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" data-back>Back</button>
+          <button class="btn btn-primary" id="next3">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: UPDATES OPT-IN (OPTIONAL) -->
+      <div class="step" data-step="4">
+        <div class="step-eyebrow">Step 4 of 5</div>
+        <h1 class="step-title">Would you like to receive updates from The Aura?</h1>
+        <p class="step-sub">These may include:</p>
+
+        <div class="offer-box">
+          <div class="text" style="width:100%;">
+            <span style="display:block; margin-bottom:8px;">🍔&nbsp; New menu launches</span>
+            <span style="display:block; margin-bottom:8px;">🎉&nbsp; Festival offers</span>
+            <!-- <span style="display:block;">☀️&nbsp; Tips on reducing electricity bills with rooftop solar</span> -->
+          </div>
+        </div>
+
+        <div class="choice-list" id="solarChoices">
+          <div class="choice-item" data-value="Yes">
+            <span class="choice-label">Yes, keep me updated</span>
+            <span class="radio-dot"></span>
+          </div>
+          <div class="choice-item" data-value="No">
+            <span class="choice-label">No, thanks</span>
+            <span class="radio-dot"></span>
+          </div>
+        </div>
+
+        <div class="btn-row" style="margin-top:26px;">
+          <button class="btn btn-ghost" data-back>Back</button>
+          <button class="btn btn-primary" id="next4" disabled>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: ADDRESS -->
+      <div class="step" data-step="5">
+        <div class="step-eyebrow">Step 5 of 5</div>
+        <h1 class="step-title">What's your address?</h1>
+        <p class="step-sub">Helps us serve your neighbourhood better.</p>
+
+        <div class="field" id="addressField">
+          <label for="addressInput">Address</label>
+          <textarea id="addressInput" placeholder="House / street / locality, city"></textarea>
+          <div class="error">Please enter your address.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" data-back>Back</button>
+          <button class="btn btn-primary" id="submitBtn">Submit</button>
+        </div>
+      </div>
+
+      <!-- THANK YOU -->
+      <div class="step" data-step="thanks">
+        <div class="thanks">
+          <div class="mark">❤️</div>
+          <h2>We hope you enjoyed your meal.</h2>
+          <p>Thank you for supporting our small business ❤️</p>
+          <p>We'd really appreciate it if you could share your experience on Google.</p>
+          <div class="redirect-line">Redirecting you in <span id="countdown">2</span> seconds<span class="dots"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    /* =========================================================
+       CONFIG — edit these for your business
+       ========================================================= */
+    const GOOGLE_REVIEW_URL = "https://g.page/r/CQyf7NPCl3coEAE/review?utm_source=gbp&utm_medium=reviews&utm_campaign=qr";
+
+    // Paste the "Web app URL" you get after deploying the Google Apps Script
+    // (see the apps-script.gs file / setup instructions provided alongside this form).
+    const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwzKvu4NRRmyDN6djTcdZdZl3eew_bcia1xKiKYIOD1iUMbLyNvAJOzj9wEQVqqh7QdLw/exec";
+
+    const REDIRECT_DELAY_MS = 2000;
+
+    /* =========================================================
+       STATE
+       ========================================================= */
+    const state = {
+      rating: 0,
+      ratingWord: "",
+      name: "",
+      phone: "",
+      solar: "",
+      address: ""
+    };
+
+    const stepOrder = ["intro", "1", "2", "3", "4", "5", "thanks"];
+    let currentIndex = 0;
+
+    const steps = document.querySelectorAll(".step");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressFill = document.getElementById("progressFill");
+    const progressLeaf = document.getElementById("progressLeaf");
+    const stepNow = document.getElementById("stepNow");
+    const stepLabel = document.getElementById("stepLabel");
+
+    const stepLabels = { "1": "Your experience", "2": "Your name", "3": "Phone number", "4": "Solar offer", "5": "Address" };
+
+    function showStep(name) {
+      steps.forEach(s => s.classList.toggle("active", s.dataset.step === name));
+      const numericSteps = ["1", "2", "3", "4", "5"];
+      if (numericSteps.includes(name)) {
+        progressWrap.style.display = "block";
+        const idx = numericSteps.indexOf(name) + 1;
+        const pct = (idx / numericSteps.length) * 100;
+        stepNow.textContent = idx;
+        stepLabel.textContent = stepLabels[name];
+        progressFill.style.width = pct + "%";
+        progressLeaf.style.left = pct + "%";
+      } else {
+        progressWrap.style.display = "none";
+      }
+    }
+
+    function goTo(name) {
+      currentIndex = stepOrder.indexOf(name);
+      showStep(name);
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => goTo("1"));
+
+    document.querySelectorAll("[data-back]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const cur = stepOrder[currentIndex];
+        const prevIdx = Math.max(0, stepOrder.indexOf(cur) - 1);
+        goTo(stepOrder[prevIdx]);
+      });
+    });
+
+    /* ---------- Step 1: rating ---------- */
+    const starEls = document.querySelectorAll(".star");
+    const ratingWordEl = document.getElementById("ratingWord");
+    const ratingWordsList = document.querySelectorAll("#ratingWords .choice-item");
+    const next1 = document.getElementById("next1");
+    const wordForStars = { 1: "Poor", 2: "Average", 3: "Average", 4: "Good", 5: "Excellent" };
+
+    function paintStars(val) {
+      starEls.forEach(s => {
+        s.classList.toggle("filled", parseInt(s.dataset.value) <= val);
+      });
+    }
+    function selectRatingWord(word) {
+      ratingWordsList.forEach(it => it.classList.toggle("selected", it.dataset.word === word));
+    }
+    starEls.forEach(s => {
+      s.addEventListener("click", () => {
+        const val = parseInt(s.dataset.value);
+        state.rating = val;
+        state.ratingWord = wordForStars[val];
+        paintStars(val);
+        ratingWordEl.textContent = state.ratingWord;
+        selectRatingWord(state.ratingWord);
+        next1.disabled = false;
+      });
+    });
+    ratingWordsList.forEach(item => {
+      item.addEventListener("click", () => {
+        const word = item.dataset.word;
+        const starsForWord = { "Excellent": 5, "Good": 4, "Average": 3, "Poor": 1 };
+        state.rating = starsForWord[word];
+        state.ratingWord = word;
+        paintStars(state.rating);
+        ratingWordEl.textContent = word;
+        selectRatingWord(word);
+        next1.disabled = false;
+      });
+    });
+    next1.addEventListener("click", () => goTo("2"));
+
+    /* ---------- Step 2: name ---------- */
+    const nameInput = document.getElementById("nameInput");
+    const nameField = document.getElementById("nameField");
+    document.getElementById("next2").addEventListener("click", () => {
+      const val = nameInput.value.trim();
+      if (val.length < 2) {
+        nameField.classList.add("invalid");
+        nameInput.focus();
+        return;
+      }
+      nameField.classList.remove("invalid");
+      state.name = val;
+      goTo("3");
+    });
+    nameInput.addEventListener("input", () => nameField.classList.remove("invalid"));
+
+    /* ---------- Step 3: phone ---------- */
+    const phoneInput = document.getElementById("phoneInput");
+    const phoneField = document.getElementById("phoneField");
+    phoneInput.addEventListener("input", () => {
+      phoneInput.value = phoneInput.value.replace(/\D/g, "").slice(0, 10);
+      phoneField.classList.remove("invalid");
+    });
+    document.getElementById("next3").addEventListener("click", () => {
+      const val = phoneInput.value.trim();
+      if (!/^\d{10}$/.test(val)) {
+        phoneField.classList.add("invalid");
+        phoneInput.focus();
+        return;
+      }
+      phoneField.classList.remove("invalid");
+      state.phone = val;
+      goTo("4");
+    });
+
+    /* ---------- Step 4: solar (optional) ---------- */
+    const solarChoices = document.querySelectorAll("#solarChoices .choice-item");
+    const next4 = document.getElementById("next4");
+    solarChoices.forEach(item => {
+      item.addEventListener("click", () => {
+        solarChoices.forEach(i => i.classList.remove("selected"));
+        item.classList.add("selected");
+        state.solar = item.dataset.value;
+        next4.disabled = false;
+      });
+    });
+    next4.addEventListener("click", () => goTo("5"));
+
+
+    /* ---------- Step 5: address + submit ---------- */
+    const addressInput = document.getElementById("addressInput");
+    const addressField = document.getElementById("addressField");
+    addressInput.addEventListener("input", () => addressField.classList.remove("invalid"));
+
+    document.getElementById("submitBtn").addEventListener("click", async () => {
+      const val = addressInput.value.trim();
+      if (val.length < 4) {
+        addressField.classList.add("invalid");
+        addressInput.focus();
+        return;
+      }
+      addressField.classList.remove("invalid");
+      state.address = val;
+      await handleSubmit();
+    });
+
+    /* =========================================================
+       SUBMIT: send the entry straight to your Google Sheet + redirect
+       ========================================================= */
+    async function saveEntry(entry) {
+      try {
+        // 'no-cors' lets this POST succeed from a static HTML file without
+        // fighting CORS preflight — we don't need to read the response back,
+        // we just need Apps Script to receive it and append the row.
+        await fetch(GOOGLE_SHEET_WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(entry)
+        });
+      } catch (e) {
+        console.error("Could not save entry to Google Sheet", e);
+      }
+    }
+
+    async function handleSubmit() {
+      const entry = {
+        date: new Date().toISOString(),
+        rating: state.rating,
+        ratingWord: state.ratingWord,
+        name: state.name,
+        phone: state.phone,
+        solar: state.solar,
+        address: state.address
+      };
+
+      // 1. Save to the accumulating "excel sheet" (shared persistent storage) BEFORE redirecting
+      await saveEntry(entry);
+
+      // 2. Show thank-you screen + confetti
+      goTo("thanks");
+      fireConfetti();
+
+      // 3. Countdown + redirect to Google review page
+      let secondsLeft = Math.round(REDIRECT_DELAY_MS / 1000);
+      const countdownEl = document.getElementById("countdown");
+      countdownEl.textContent = secondsLeft;
+      const interval = setInterval(() => {
+        secondsLeft -= 1;
+        if (secondsLeft <= 0) {
+          clearInterval(interval);
+        } else {
+          countdownEl.textContent = secondsLeft;
+        }
+      }, 1000);
+
+      setTimeout(() => {
+        window.location.href = GOOGLE_REVIEW_URL;
+      }, REDIRECT_DELAY_MS);
+    }
+
+    /* =========================================================
+       CONFETTI (lightweight canvas, respects reduced-motion)
+       ========================================================= */
+    function fireConfetti() {
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return;
+
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ["#5FA33A", "#1F5E1A", "#C0932E", "#123524", "#FBF8F1"];
+      const pieces = [];
+      const count = 140;
+
+      for (let i = 0; i < count; i++) {
+        pieces.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 120,
+          y: canvas.height * 0.35,
+          vx: (Math.random() - 0.5) * 9,
+          vy: (Math.random() * -9) - 3,
+          size: 4 + Math.random() * 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 12,
+          gravity: 0.18 + Math.random() * 0.08,
+          life: 0,
+          maxLife: 90 + Math.random() * 40
+        });
+      }
+
+      let frame = 0;
+      function tick() {
+        frame++;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        pieces.forEach(p => {
+          if (p.life > p.maxLife) return;
+          alive = true;
+          p.life++;
+          p.vy += p.gravity;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rotation += p.rotSpeed;
+          const opacity = 1 - (p.life / p.maxLife);
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rotation * Math.PI / 180);
+          ctx.globalAlpha = Math.max(opacity, 0);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          ctx.restore();
+        });
+        if (alive && frame < 220) {
+          requestAnimationFrame(tick);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    window.addEventListener("resize", () => {
+      const canvas = document.getElementById("confetti-canvas");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+
+</html>
