@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Aura Share Your Experience</title>
-   <link rel="icon" type="image/png" href="favicon/favicon.ico">
+  <link rel="icon" type="image/png" href="favicon/favicon.ico">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -120,7 +120,7 @@
         </div>
       </div>
 
-      <!-- STEP 4: UPDATES OPT-IN (OPTIONAL) -->
+      <!-- STEP 4: UPDATES OPT-IN -->
       <div class="step" data-step="4">
         <div class="step-eyebrow">Step 4 of 5</div>
         <h1 class="step-title">Would you like to receive updates from The Aura?</h1>
@@ -134,7 +134,7 @@
           </div>
         </div>
 
-        <div class="choice-list" id="solarChoices">
+        <div class="choice-list" id="updatesChoice">
           <div class="choice-item" data-value="Yes">
             <span class="choice-label">Yes, keep me updated</span>
             <span class="radio-dot"></span>
@@ -191,9 +191,9 @@
        ========================================================= */
     const GOOGLE_REVIEW_URL = "https://g.page/r/CQyf7NPCl3coEAE/review?utm_source=gbp&utm_medium=reviews&utm_campaign=qr";
 
-    // Paste the "Web app URL" you get after deploying the Google Apps Script
-    // (see the apps-script.gs file / setup instructions provided alongside this form).
-    const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwzKvu4NRRmyDN6djTcdZdZl3eew_bcia1xKiKYIOD1iUMbLyNvAJOzj9wEQVqqh7QdLw/exec";
+    // Paste the "Web app URL" you get after deploying the Google Apps Script below.
+    // Do not leave this blank — an empty URL means nothing gets saved.
+    const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwrs_L1f_bjf6y5-UJaK7og34Axsmee4bb2iSDiu7TWL34mrnHZi9s1jJy60Yl22k42Tg/exec";
 
     const REDIRECT_DELAY_MS = 2000;
 
@@ -205,7 +205,7 @@
       ratingWord: "",
       name: "",
       phone: "",
-      solar: "",
+      updates: "",
       address: ""
     };
 
@@ -219,7 +219,7 @@
     const stepNow = document.getElementById("stepNow");
     const stepLabel = document.getElementById("stepLabel");
 
-    const stepLabels = { "1": "Your experience", "2": "Your name", "3": "Phone number", "4": "Solar offer", "5": "Address" };
+    const stepLabels = { "1": "Your experience", "2": "Your name", "3": "Phone number", "4": "Stay updated", "5": "Address" };
 
     function showStep(name) {
       steps.forEach(s => s.classList.toggle("active", s.dataset.step === name));
@@ -327,14 +327,14 @@
       goTo("4");
     });
 
-    /* ---------- Step 4: solar (optional) ---------- */
-    const solarChoices = document.querySelectorAll("#solarChoices .choice-item");
+    /* ---------- Step 4: updates opt-in ---------- */
+    const updatesChoice = document.querySelectorAll("#updatesChoice .choice-item");
     const next4 = document.getElementById("next4");
-    solarChoices.forEach(item => {
+    updatesChoice.forEach(item => {
       item.addEventListener("click", () => {
-        solarChoices.forEach(i => i.classList.remove("selected"));
+        updatesChoice.forEach(i => i.classList.remove("selected"));
         item.classList.add("selected");
-        state.solar = item.dataset.value;
+        state.updates = item.dataset.value;
         next4.disabled = false;
       });
     });
@@ -384,11 +384,11 @@
         ratingWord: state.ratingWord,
         name: state.name,
         phone: state.phone,
-        solar: state.solar,
+        updates: state.updates,
         address: state.address
       };
 
-      // 1. Save to the accumulating "excel sheet" (shared persistent storage) BEFORE redirecting
+      // 1. Save to your Google Sheet BEFORE redirecting
       await saveEntry(entry);
 
       // 2. Show thank-you screen + confetti
